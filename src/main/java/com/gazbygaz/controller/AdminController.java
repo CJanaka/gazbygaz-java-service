@@ -1,7 +1,7 @@
 package com.gazbygaz.controller;
 
 import com.gazbygaz.common.MasterData;
-import com.gazbygaz.request.CustomerRequest;
+import com.gazbygaz.dto.CustomerDto;
 import com.gazbygaz.response.CustomerResponse;
 import com.gazbygaz.service.ManageService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,9 @@ public class AdminController {
     private ManageService manageService;
 
     @PostMapping(value = "customer/update")
-    public CustomerResponse manageCustomer(@RequestBody CustomerRequest customerRequest){
+    public CustomerResponse manageCustomer(@RequestBody CustomerDto customerRequest){
         return manageService.manageCustomer(customerRequest);
     }
+
+
 }

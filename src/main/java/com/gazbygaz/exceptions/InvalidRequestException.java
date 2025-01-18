@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 @Data
 public class InvalidRequestException extends RuntimeException {
 
-    private HttpStatus status;
+    private String status;
     private String code;
     private String message;
     private String messageDescription;
@@ -22,15 +22,22 @@ public class InvalidRequestException extends RuntimeException {
 
     public InvalidRequestException(String errcode, String errmsg) {
         super(errmsg);
-        this.setStatus(HttpStatus.BAD_REQUEST);
+        this.setStatus(HttpStatus.BAD_REQUEST.name());
+        this.code = errcode;
+        this.message = errmsg;
+    }
+
+    public InvalidRequestException(String status, String errcode, String errmsg) {
+        super(errmsg);
+        this.setStatus(status);
         this.code = errcode;
         this.message = errmsg;
     }
     
-    public InvalidRequestException(String errcode, String errmsg, String errmsgInfo) {
+    public InvalidRequestException(String status, int errcode, String errmsg, String errmsgInfo) {
         super(errmsg);
-        this.setStatus(HttpStatus.BAD_REQUEST);
-        this.code = errcode;
+        this.setStatus(status);
+        this.code = String.valueOf(errcode);
         this.message = errmsg;
         this.messageDescription = errmsgInfo;
     }

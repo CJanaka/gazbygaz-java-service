@@ -3,6 +3,8 @@ package com.gazbygaz.exceptions;
 import com.gazbygaz.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,8 +20,8 @@ public class GlobalExceptionHandler {
 	
 	private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 	 
-//	@Autowired
-//    private MessageSource messageSource;
+	@Autowired
+    private MessageSource messageSource;
 
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
@@ -30,11 +32,11 @@ public class GlobalExceptionHandler {
 		log.error("Invalid Exception Occurred Error: ", ex);
 		ex.printStackTrace();
 		Response response = new Response();
-//		String message = messageSource.getMessage(HttpStatus.INTERNAL_SERVER_ERROR.name(), null, "server error occurred!!.", null);
+		String message = messageSource.getMessage(HttpStatus.INTERNAL_SERVER_ERROR.name(), null, "server error occurred!!.", null);
 		
 		response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.name());
-//        response.setMessage(message);
-        response.setCode(HttpStatus.BAD_REQUEST);
+        response.setMessage(message);
+		response.setCode(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
         response.setMessageDescription(ex.getMessage());
 		return response;
 	}
@@ -49,7 +51,7 @@ public class GlobalExceptionHandler {
 		Response response = new Response();
 		response.setStatus(HttpStatus.BAD_REQUEST.name());
 		response.setMessage(ex.getMessage());
-		response.setCode(HttpStatus.BAD_REQUEST);
+		response.setCode(String.valueOf(HttpStatus.BAD_REQUEST.value()));
 		response.setMessageDescription(ex.getMessageDescription());
 		return response;
 	}
@@ -70,7 +72,7 @@ public class GlobalExceptionHandler {
 
 		response.setMessage(ex.getMessage());
 		response.setStatus(HttpStatus.BAD_REQUEST.name());
-		response.setCode(HttpStatus.BAD_REQUEST);
+		response.setCode(String.valueOf(HttpStatus.BAD_REQUEST.value()));
 		return response;
 	}
 }

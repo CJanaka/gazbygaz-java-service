@@ -1,8 +1,9 @@
 package com.gazbygaz.service;
 
+import com.gazbygaz.common.MasterData;
+import com.gazbygaz.dto.CustomerDto;
 import com.gazbygaz.entity.Customer;
 import com.gazbygaz.exceptions.InvalidRequestException;
-import com.gazbygaz.request.CustomerRequest;
 import com.gazbygaz.response.CustomerResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,13 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class ManageServiceImpl implements ManageService {
+public class ManageServiceImpl extends CommonService  implements ManageService{
 
     @Autowired
     private CustomerService customerService;
 
     @Override
-    public CustomerResponse manageCustomer(CustomerRequest customerRequest) {
+    public CustomerResponse manageCustomer(CustomerDto customerRequest) {
 
         Long customerId = customerRequest.getCustomerId();
 
@@ -40,8 +41,9 @@ public class ManageServiceImpl implements ManageService {
         log.info("customer updated! = "+customerId);
 
         CustomerResponse customerResponse = new CustomerResponse();
-        customerResponse.setCode(HttpStatus.OK);
+        customerResponse.setCode(String.valueOf(HttpStatus.OK.value()));
         customerResponse.setStatus(HttpStatus.OK.name());
+        customerResponse.setMessage(getMessageForResponseCode(MasterData.ResponseCode.CUS_UPDATE_SUCCESS_CODE, null));
 
         return customerResponse;
     }
