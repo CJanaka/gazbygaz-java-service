@@ -9,7 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
-import java.sql.Timestamp;
+import java.util.Date;
 
 @MappedSuperclass
 @Data
@@ -18,11 +18,11 @@ public abstract class AuditEntity {
 
     @CreatedDate
     @Column(name = "created_datetime")
-    private Timestamp createdDatetime;
+    private Date createdDatetime;
 
     @LastModifiedDate
     @Column(name = "modified_datetime")
-    private Timestamp modifiedDatetime;
+    private Date modifiedDatetime;
 
     @Version
     @Column(name = "version")

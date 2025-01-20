@@ -10,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,14 +18,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig implements WebMvcConfigurer {
 
 
     @Autowired
     private JwtFilter authFilter;
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry
+                .addMapping("/**") // Allow all endpoints
+                .allowedOrigins("http://localhost:5173") // Replace with your React app's origin
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("*")
+                .allowCredentials(true);
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

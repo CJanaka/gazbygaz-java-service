@@ -1,8 +1,11 @@
 package com.gazbygaz.controller;
 
 import com.gazbygaz.common.MasterData;
+import com.gazbygaz.common.ServiceContext;
 import com.gazbygaz.dto.CustomerDto;
+import com.gazbygaz.dto.OutletManagerDto;
 import com.gazbygaz.response.CustomerResponse;
+import com.gazbygaz.response.OutletManagerResponse;
 import com.gazbygaz.service.ManageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,11 @@ public class AdminController {
     @PostMapping(value = "customer/update")
     public CustomerResponse manageCustomer(@RequestBody CustomerDto customerRequest){
         return manageService.manageCustomer(customerRequest);
+    }
+
+    @PostMapping(value = "get/managers")
+    public OutletManagerResponse getOutletManagers(@RequestBody OutletManagerDto outletManagerDto){
+        return manageService.getOutletManagers(outletManagerDto);
     }
 
 
